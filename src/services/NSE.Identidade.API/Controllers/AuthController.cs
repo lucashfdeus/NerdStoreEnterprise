@@ -57,15 +57,15 @@ namespace NSE.Identidade.API.Controllers
         }
 
         [HttpPost("autenticar")]
-        public async Task<ActionResult> Login(UsuarioRegistro usuarioRegistro)
+        public async Task<ActionResult> Login(UsuarioLogin usuarioLogin)
         {
             if (!ModelState.IsValid) CustomResponse(ModelState);
 
-            var result = await _signInManager.PasswordSignInAsync(usuarioRegistro.Email, usuarioRegistro.Senha, false, true);
+            var result = await _signInManager.PasswordSignInAsync(usuarioLogin.Email, usuarioLogin.Senha, false, true);
 
             if (result.Succeeded)
             {
-                return CustomResponse(await GerarJwt(usuarioRegistro.Email));
+                return CustomResponse(await GerarJwt(usuarioLogin.Email));
             }
 
             if (result.IsLockedOut)
