@@ -6,10 +6,14 @@ namespace NSE.WebApp.MVC.Controllers
 {
     public class MainController : Controller
     {
-        protected bool ResponsePossuiErros(ResponseResult result)
+        protected bool ResponsePossuiErros(ResponseResult resposta)
         {
-            if (result != null && result.Erros.Mensagens.Any())
+            if (resposta != null && resposta.Errors.Mensagens.Any())
             {
+                foreach (var mensagem in resposta.Errors.Mensagens)
+                {
+                    ModelState.AddModelError(string.Empty, mensagem);
+                }
                 return true;
             }
 

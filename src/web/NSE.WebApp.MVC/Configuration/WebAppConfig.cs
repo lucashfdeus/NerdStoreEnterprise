@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using NSE.WebApp.MVC.Extensions;
 
 namespace NSE.WebApp.MVC.Configuration
 {
@@ -14,15 +15,22 @@ namespace NSE.WebApp.MVC.Configuration
 
         public static void UseMvcConfiguration(this IApplicationBuilder app, IWebHostEnvironment env)
         {
+            //Comente essa pare para realizar testes no ambiente Dev
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
             }
             else
             {
-                app.UseExceptionHandler("/Home/Error");
+                app.UseExceptionHandler("/erro/500");
+                app.UseStatusCodePagesWithRedirects("/erro/{0}");
                 app.UseHsts();
             }
+
+            //Descomente essa pare para realizar testes no ambiente Dev
+            //app.UseExceptionHandler("/erro/500");
+            //app.UseStatusCodePagesWithRedirects("/erro/{0}");
+            //app.UseHsts();
 
             app.UseHttpsRedirection();
 
@@ -31,6 +39,8 @@ namespace NSE.WebApp.MVC.Configuration
             app.UseRouting();
 
             app.UseIdentityConfiguration();
+
+            app.UseMiddleware<ExceptionMiddleware>();
 
             app.UseEndpoints(endpoints =>
             {

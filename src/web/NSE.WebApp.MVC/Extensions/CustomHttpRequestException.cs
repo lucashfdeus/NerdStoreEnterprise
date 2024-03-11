@@ -10,10 +10,7 @@ namespace NSE.WebApp.MVC.Extensions
         public CustomHttpRequestException() { }
 
         public CustomHttpRequestException(string message, Exception innerException)
-            : base(message, innerException)
-        {
-
-        }
+            : base(message, innerException) { }
 
         public CustomHttpRequestException(HttpStatusCode httpStatusCode)
         {

@@ -16,28 +16,28 @@ namespace NSE.WebApp.MVC.Services
         }
 
         public async Task<UsuarioRespostaLogin> Login(UsuarioLogin usuarioLogin)
-        {
-            var mediaType = "application/json";
-            var url = "https://localhost:44310/api/identidade/autenticar";
-
+        {          
             var loginContent = new StringContent(
                 JsonSerializer.Serialize(usuarioLogin),
                 Encoding.UTF8,
-                mediaType
+                "application/json"
                 );
 
-            var response = await _httpClient.PostAsync(url, loginContent);
+            var response = await _httpClient.PostAsync("https://localhost:44310/api/identidade/autenticar", loginContent);
 
+            //Validar tipo do retorno.
+            //var teste = await response.Content.ReadAsStringAsync();
             var options = new JsonSerializerOptions
             {
-                PropertyNameCaseInsensitive = true
+                PropertyNameCaseInsensitive = true,
             };
 
-            if (!TratarErroResponse(response))
+            if (!TratarErrosResponse(response))
             {
                 return new UsuarioRespostaLogin
                 {
-                    ResponseResult = JsonSerializer.Deserialize<ResponseResult>(await response.Content.ReadAsStringAsync(), options)
+                    ResponseResult = 
+                        JsonSerializer.Deserialize<ResponseResult>(await response.Content.ReadAsStringAsync(), options)
                 };
             }
 
@@ -62,7 +62,7 @@ namespace NSE.WebApp.MVC.Services
                 PropertyNameCaseInsensitive = true
             };
 
-            if (!TratarErroResponse(response))
+            if (!TratarErrosResponse(response))
             {
                 return new UsuarioRespostaLogin
                 {

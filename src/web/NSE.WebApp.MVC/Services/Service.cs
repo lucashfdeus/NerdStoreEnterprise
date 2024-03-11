@@ -1,12 +1,11 @@
 ﻿using NSE.WebApp.MVC.Extensions;
-using System;
 using System.Net.Http;
 
 namespace NSE.WebApp.MVC.Services
 {
     public abstract class Service
     {
-        protected bool TratarErroResponse(HttpResponseMessage response)
+        protected bool TratarErrosResponse(HttpResponseMessage response)
         {
             switch ((int)response.StatusCode)
             {

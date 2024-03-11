@@ -1,7 +1,6 @@
 ﻿using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.AspNetCore.Mvc.Formatters;
 using NSE.WebApp.MVC.Models;
 using NSE.WebApp.MVC.Services;
 using System;
@@ -47,15 +46,18 @@ namespace NSE.WebApp.MVC.Controllers
 
         [HttpGet]
         [Route("login")]
-        public IActionResult Login()
+        public IActionResult Login(string returnUrl = null)
         {
+            ViewData["ReturnRul"] = returnUrl;
             return View();
         }
 
         [HttpPost]
         [Route("login")]
-        public async Task<IActionResult> Login(UsuarioLogin usuarioLogin)
+        public async Task<IActionResult> Login(UsuarioLogin usuarioLogin, string returnUrl = null)
         {
+            ViewData["ReturnRul"] = returnUrl;
+
             if (!ModelState.IsValid) return View(usuarioLogin);
 
             //Conectar na API para login do usuário.s
@@ -66,7 +68,9 @@ namespace NSE.WebApp.MVC.Controllers
             //Realizar login na APP
             await RealizarLogin(resposta);
 
-            return RedirectToAction("Index", "Home");
+            if (string.IsNullOrEmpty(returnUrl)) return RedirectToAction("Index", "Home");
+
+            return LocalRedirect(returnUrl);
         }
 
 
@@ -74,7 +78,7 @@ namespace NSE.WebApp.MVC.Controllers
         [Route("sair")]
         public async Task<IActionResult> Logout()
         {
-
+            await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
             return RedirectToActionPermanent("Index", "Home");
         }
 
