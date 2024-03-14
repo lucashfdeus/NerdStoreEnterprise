@@ -10,6 +10,8 @@ namespace NSE.WebApp.MVC.Services
 {
     public class CatalogoService : Service, ICatalogoService
     {
+        //NÃO ESTAMOS MAIS USANDO ESSA INTERFACE POR CONTA DO REFIT
+
         private readonly HttpClient _httpClient;
 
         public CatalogoService(HttpClient httpClient, IOptions<AppSettings> settings)
