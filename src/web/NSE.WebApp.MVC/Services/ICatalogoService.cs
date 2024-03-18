@@ -8,12 +8,13 @@ namespace NSE.WebApp.MVC.Services
 {
     public interface ICatalogoService
     {
-        //NÃO ESTAMOS MAIS USANDO ESSA INTERFACE POR CONTA DO REFIT ABAIXO
+       
         Task<IEnumerable<ProdutoViewModel>> ObterTodos();
 
         Task<ProdutoViewModel> ObterPorId(Guid id);
     }
 
+    //NÃO ESTAMOS MAIS USANDO ESSA INTERFACE DO REFIT
     public interface ICatalogoServiceRefit
     {
         [Get("/catalogo/produtos/")]
