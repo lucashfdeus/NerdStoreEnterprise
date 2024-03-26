@@ -9,7 +9,7 @@ namespace NSE.Clientes.API.Application.Commands
 {
     public class ClienteCommandHandler : CommandHandler, IRequestHandler<RegistrarClienteCommand, ValidationResult>
     {
-\\\\        private readonly IClienteRepository _clienteRepository;
+        private readonly IClienteRepository _clienteRepository;
 
         public ClienteCommandHandler(IClienteRepository clienteRepository)
         {
