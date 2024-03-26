@@ -4,6 +4,8 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.DependencyInjection;
 using NSE.Clientes.API.Application.Commands;
 using NSE.Clientes.API.Data;
+using NSE.Clientes.API.Data.Repository;
+using NSE.Clientes.API.Models;
 using NSE.Core.Mediator;
 
 namespace NSE.Clientes.API.Configuration
@@ -15,8 +17,12 @@ namespace NSE.Clientes.API.Configuration
             services.AddScoped<IMediatorHandler, IMediatorHandler>();
             services.AddScoped<IRequestHandler<RegistrarClienteCommand, ValidationResult>, ClienteCommandHandler>();
 
-            services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
+            //Repository
+            services.AddScoped<IClienteRepository, ClienteRepository>();
             services.AddScoped<ClientesContext>();
+
+
+            services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
         }
     }
 }
