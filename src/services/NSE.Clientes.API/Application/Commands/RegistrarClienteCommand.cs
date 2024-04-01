@@ -1,4 +1,5 @@
-﻿using NSE.Core.Messages;
+﻿using FluentValidation;
+using NSE.Core.Messages;
 using System;
 
 namespace NSE.Clientes.API.Application.Commands
@@ -18,5 +19,45 @@ namespace NSE.Clientes.API.Application.Commands
             Email = email;
             Cpf = cpf;
         }
-    }
+
+        public override bool EhValido()
+        {
+            ValidationResult = new RegistrarClienteValidation().Validate(this);
+            return ValidationResult.IsValid;
+        }
+
+        //Esta classe está como uma sub-responsabilidade, pois é uma coopendencia de validação.
+        //definição de classe aninhada.
+        public class RegistrarClienteValidation : AbstractValidator<RegistrarClienteCommand>
+        {
+            public RegistrarClienteValidation()
+            {
+                RuleFor(c => c.Id)
+                    .NotEqual(Guid.Empty)
+                    .WithMessage("Id do cliente inválido");
+
+                RuleFor(c => c.Nome)
+                    .NotEmpty()
+                    .WithMessage("O nome do cliente não foi informado");
+
+                RuleFor(c => c.Cpf)
+                    .Must(TerCpfValido)
+                    .WithMessage("CPF informado inválido");
+
+                RuleFor(c => c.Email)
+                    .Must(TerEmailValido)
+                    .WithMessage("E-mail informado inválido");
+            }
+
+            protected static bool TerCpfValido(string cpf)
+            {
+                return Core.DomainObjects.Cpf.Validar(cpf);
+            }
+
+            protected static bool TerEmailValido(string email)
+            {
+                return Core.DomainObjects.Email.Validar(email);
+            }
+        }
+    }    
 }
