@@ -1,8 +1,6 @@
-﻿using Microsoft.AspNetCore.Authentication;
-using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Http;
 using System;
 using System.Collections.Generic;
-using System.Net.Http;
 using System.Security.Claims;
 
 namespace NSE.WebApp.MVC.Extensions
