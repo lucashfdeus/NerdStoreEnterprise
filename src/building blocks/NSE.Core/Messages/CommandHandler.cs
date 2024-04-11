@@ -21,7 +21,7 @@ namespace NSE.Core.Messages
 
         protected async Task<ValidationResult> PersistirDados(IUnitOfWork uow)
         {
-            if (!await uow.CommitAsync()) AdicionarErro("Houve um erro ao persistir dados.");
+            if (!await uow.CommitAsync()) AdicionarErro("Houve um erro ao persistir os dados");
 
             return ValidationResult;
         }
