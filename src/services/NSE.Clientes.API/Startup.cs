@@ -41,7 +41,7 @@ namespace NSE.Clientes.API
 
             services.RegisterServices();
 
-            //services.AddMessageBusConfiguration(Configuration);
+            services.AddMessageBusConfiguration(Configuration);
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)

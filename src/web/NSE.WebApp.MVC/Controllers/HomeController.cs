@@ -1,7 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Logging;
 using NSE.WebApp.MVC.Models;
-using System.Diagnostics;
 
 namespace NSE.WebApp.MVC.Controllers
 {
