@@ -14,20 +14,30 @@ namespace NSE.Clientes.API.Services
     public class RegistroClienteIntegrationHandler : BackgroundService
     {
         private readonly IMessageBus _messageBus;
-        private readonly IServiceProvider _serviceProvider;
+        private readonly IServiceProvider _serviceProvider;       
 
         public RegistroClienteIntegrationHandler(IServiceProvider serviceProvider, IMessageBus messageBus)
         {
             _serviceProvider = serviceProvider;
             _messageBus = messageBus;
         }
+        private void SetRespondAsync()
+        {
+            _messageBus.RespondAsync<UsuarioRegistradoIntegrationEvent, ResponseMessage>(async request =>
+               await RegistrarCliente(request));
+
+            _messageBus.AdvancedBus.Connected += OnConnect;
+        }
 
         protected override Task ExecuteAsync(CancellationToken stoppingToken)
         {
-            _messageBus.RespondAsync<UsuarioRegistradoIntegrationEvent, ResponseMessage>(async request => 
-                await RegistrarCliente(request));
-
+            SetRespondAsync();
             return Task.CompletedTask;
+        }       
+
+        private void OnConnect(object obj, EventArgs eventArgs)
+        {
+            SetRespondAsync();
         }
 
         private async Task<ResponseMessage> RegistrarCliente(UsuarioRegistradoIntegrationEvent message)
